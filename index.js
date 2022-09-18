@@ -2,7 +2,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const generateMarkdown = require('./utils/generateMarkdown');
-const markdown = require("./utils/generateMarkdown");
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -145,21 +144,28 @@ function init() {
             "build": "I built it because I am regularly find that it is hard to determine the movement of weather.",
             "solve": "My goal was to solve the weather tracking problem.",
             "learn": "I learned that API calls from different weather data providers was slow, so I had to generate my own data.",
-            "install": "1. Dowload from Github,2. Run weatherApp.py",
+            "install": "Dowload from Github, Run weatherApp.py",
             "usage": "Usage: weatherAppy. -d <datafile>",
             "screenshots": "image1.png,image2.png",
             "collaborators": "John Salley <www.github.com/js>,Bill Lambert <www.github.com/bl>,Dennis Rodman <www.github.com/dr>",
-            "thirdparty": "1. Apache,2. Bulma",
-            "tutorials": "1. https://www.github.com/win-will/weatherApp",
+            "thirdparty": "Apache, Bulma",
+            "tutorials": "https://www.github.com/win-will/weatherApp, https://www.github.com/win-will/weatherApp2",
             "license": ["Apache License 2.0","GNU LGPLv3"],
             "badges": "https://img.shields.io/github/languages/top/lernantino/badmath",
-            "features": "Features",
+            "features": "Feature1, Feature2",
             "contribute": "You can contribute by forking the project at github and sending pull requests for adding additional features.",
             "tests": "Run npm test to execute all tests cases."
           
     }
-
-    writeToFile(process.argv[2], answers);
+    if (answers.title === "" || answers.motivation === "" || answers.build === "" || 
+        answers.solve === "" || answers.learn === "" || answers.install === "" || 
+        answers.usage === ""|| answers.license === "") {
+        console.log("Error you did not answer one or more questions necessary to make a high quality README!");
+    }
+    else {
+        writeToFile(process.argv[2], answers);
+    }
+    
         
 }
 

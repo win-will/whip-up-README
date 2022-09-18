@@ -1,6 +1,6 @@
 # Weather Tracking
-## Description
 
+## Description
 - What was your motivation?
 My motivation for writing this application was to design an app that helped track weather patterns.
 
@@ -22,35 +22,36 @@ I learned that API calls from different weather data providers was slow, so I ha
 - [Features](#features)
 - [Contribute](#contribute)
 - [Tests](#tests)
-## Installation
   
-1. Dowload from Github,2. Run weatherApp.py
+## Installation
+1. Dowload from Github
+2. Run weatherApp.py
   
 ## Usage
-  
 Usage: weatherAppy. -d <datafile>
 
-
-### Screenshots
+## Screenshots
 ```md
-![alt text](assets/images/image1.png)
+![alt_text](/assets/images/image1.png)
 ```
 ```md
-![alt text](assets/images/image2.png)
+![alt_text](/assets/images/image1.png)
 ```
 
-##Credits
+## Credits
+
 ### Collaborators
 - John Salley <www.github.com/js>
 - Bill Lambert <www.github.com/bl>
 - Dennis Rodman <www.github.com/dr>
 
-### 3rd Party
-- 1. Apache
-- 2. Bulma
+## Third-Party
+- Apache
+- Bulma
 
 ### Tutorials
-- 1. https://www.github.com/win-will/weatherApp
+- https://www.github.com/win-will/weatherApp
+- https://www.github.com/win-will/weatherApp2
 
 ## License
 
@@ -60,23 +61,15 @@ Usage: weatherAppy. -d <datafile>
 ### GNU LGPLv3
 [![License](https://img.shields.io/static/v1?label=License&message=GNU%20LGPLv3&color=green)](https://choosealicense.com/licenses/lgpl-3.0/)
 
-
-
-
----
-
 ## Badges
 - ![badmath](https://img.shields.io/github/languages/top/lernantino/badmath)
 
-
 ## Features
-- Features
+- Feature1
+- Feature2
 
 ## How to Contribute
-
-    You can contribute by forking the project at github and sending pull requests for adding additional features.
-    
-    
+You can contribute by forking the project at github and sending pull requests for adding additional features.
 
 ## Tests
 - Run npm test to execute all tests cases.
