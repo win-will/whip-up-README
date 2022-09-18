@@ -1,19 +1,25 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
+const generateMarkdown = require('./utils/generateMarkdown');
 const markdown = require("./utils/generateMarkdown");
 
 // TODO: Create an array of questions for user input
 const questions = [
     {
         type: "input",
-        message: "What is you project name",
+        message: "What is you project name?",
         name: "title"
     },
     {
         type: "input",
         message: "What was your motivation?",
         name: "motivation"
+    },
+    {
+        type: "input",
+        message: "Why did you build this project?",
+        name: "build"
     },
     {
         type: "input",
@@ -27,12 +33,7 @@ const questions = [
     },
     {
         type: "input",
-        message: "What makes your project stand out?",
-        name: "standout"
-    },
-    {
-        type: "input",
-        message: "What are the steps required to install your project?",
+        message: "What are the steps to install your project?",
         name: "install"
     },
     {
@@ -42,22 +43,28 @@ const questions = [
     },
     {
         type: "input",
-        message: "Who were your collaborators? (If there are multiple collaborators then comma separate them.)",
+        message: "Do you have screenshots? (If more than one then comma separate them.)",
+        name: "screenshots"
+    },
+    {
+        type: "input",
+        message: "Were there any collaborators? (If more than one then comma separate them.)",
         name: "collaborators"
     },
     {
         type: "input",
-        message: "What are 3rd-party assets that require attribution? (If there are multiple 3rd-party assets then comma separate them.)", 
+        message: "What were 3rd-party assets used to create this project? (If more than one then comma separate them.)", 
         name: "thirdparty"
     },
     {
         type: "input",
-        message: "What tutorials did you use? (Please place a comma in after each URL.)",
+        message: "What tutorial(s) did you use, include URL(s)? (If more than one then comma separate them.)",
         name: "tutorials"
     },
     {
         type: "checkbox",
-        message: "What is/are the license(s) for this project? (Pick from the list below.)",
+        message: "Want to add license(s)? (Pick from the list below.)",
+        name: "license",
         choices: [
             {
                 name: "GNU AGPLv3",
@@ -87,12 +94,12 @@ const questions = [
     },
     {
         type: "input",
-        message: "What are your badges for this program? (Please place a comma in after each URL.)",
+        message: "Have badges to add to this project? (If more than one then comma separate them.)",
         name: "badges"
     },
     {
         type: "input",
-        message: "What are the features of this project? (If there are more than one feature then comma separate them.)",
+        message: "What features are included in this project? (If more than one then comma separate them.)",
         name: "features"
     },
     {
@@ -102,7 +109,7 @@ const questions = [
     },
     {
         type: "input",
-        message: "What are some tests for this application?",
+        message: "How can this project be tested?",
         name: "tests"
     }
     
@@ -111,20 +118,49 @@ const questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-
-    fs.writeFile(fileName, data, (err) =>
-        err ? console.error(err) : console.log('Success!')
-    );
+    if (fileName){
+        fs.writeFile(fileName, generateMarkdown(data), (err) =>
+            err ? console.error(err) : console.log('Success!')
+        );
+    }
+    else {
+        console.log("Error file name was empty string")
+    }
+    
 }
 
 // TODO: Create a function to initialize app
 function init() {
-    inquirer
-        .prompt(questions)
-        .then((answers) => {
-            console.log(JSON.stringify(answers, null, '  '));
-          });
+    // inquirer
+    //     .prompt(questions)
+    //         .then((answers) => {
+    //             console.log(JSON.stringify(answers, null, '  '));
+    //             writeToFile(process.argv[2], answers);
+
+    //         });
     
+    answers = {
+            "title": "Weather Tracking",
+            "motivation": "My motivation for writing this application was to design an app that helped track weather patterns.",
+            "build": "I built it because I am regularly find that it is hard to determine the movement of weather.",
+            "solve": "My goal was to solve the weather tracking problem.",
+            "learn": "I learned that API calls from different weather data providers was slow, so I had to generate my own data.",
+            "install": "1. Dowload from Github,2. Run weatherApp.py",
+            "usage": "Usage: weatherAppy. -d <datafile>",
+            "screenshots": "image1.png,image2.png",
+            "collaborators": "John Salley <www.github.com/js>,Bill Lambert <www.github.com/bl>,Dennis Rodman <www.github.com/dr>",
+            "thirdparty": "1. Apache,2. Bulma",
+            "tutorials": "1. https://www.github.com/win-will/weatherApp",
+            "license": ["Apache License 2.0","GNU LGPLv3"],
+            "badges": "https://img.shields.io/github/languages/top/lernantino/badmath",
+            "features": "Features",
+            "contribute": "You can contribute by forking the project at github and sending pull requests for adding additional features.",
+            "tests": "Run npm test to execute all tests cases."
+          
+    }
+
+    writeToFile(process.argv[2], answers);
+        
 }
 
 // Function call to initialize app
