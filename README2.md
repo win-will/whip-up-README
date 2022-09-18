@@ -32,10 +32,10 @@ Usage: weatherAppy. -d <datafile>
 
 ## Screenshots
 ```md
-![alt_text](./assets/images/image1.png)
+![Mockup 1](./assets/images/image1.png)
 ```
 ```md
-![alt_text](./assets/images/image1.png)
+![Mockup 2](./assets/images/image2.png)
 ```
 
 ## Credits
