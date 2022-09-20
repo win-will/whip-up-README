@@ -38,6 +38,8 @@ THEN I am taken to the corresponding section of the README
 
 !["Walkthrough video for Whip Up README.md"](./assets/videos/whip-up-README-walkthrough.gif)
 
-## Mock-up
+## Screenshots
 
 !["Screen shot for Whip Up README.md"](./assets/images/screenshot.PNG)
+
+!["What a completed README.md looks like"](./assets/videos/completed-README.gif)
