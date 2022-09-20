@@ -18,6 +18,7 @@ function renderLicenseLink(license) {
 
   let link;
 
+  //Choose which license 
   switch(license) {
 
     case "GNU AGPLv3":
@@ -60,6 +61,8 @@ function renderLicenseLink(license) {
   return link;
 }
 
+
+//Every section requires generating is list of items
 function renderSectionList(items,sectionName){
   let section = ``;
   let arrayItems = [];
@@ -69,10 +72,14 @@ function renderSectionList(items,sectionName){
     if (sectionName === "Collaborators" ||
       sectionName === "Thrird-Party" ||
       sectionName === "Tutorials"){
-        section = `### ${sectionName}`
+        section = `### ${sectionName}`;
+    }
+  
+    else if (sectionName === "License") {
+      section = `## ${sectionName}\nThis application is covered under the following license(s).\n\n`;
     }
     else {
-      section = `## ${sectionName}`
+      section = `## ${sectionName}\n`;
     }
 
     if (typeof items === "string") arrayItems = items.split(",");
@@ -81,24 +88,19 @@ function renderSectionList(items,sectionName){
     for (i of arrayItems) {
       i = i.trim();
 
-      if (sectionName == "Badges") {
-          section = `${section}\n- ![${i.split("/")[i.split("/").length - 1]}](${i})`
-      }
-      else if (sectionName === "Screenshots") {
-          section = `${section}\n\`\`\`md\n![alt text](assets/images/${i})\n\`\`\``
-      }
+      if (sectionName == "Badges") section = `${section}\n- ![${i.split("/")[i.split("/").length - 1]}](${i})`;
+    
+      else if (sectionName === "Screenshots") section = `${section}\n\`\`\`md\n![Screenshot ${parseInt(num)}](./assets/images/${i})\n\`\`\``;
+      
       else if (sectionName === "License")
       {
         section = `${section}\n\n### ${i}`;
         section = `${section}\n[![License](`+ renderLicenseBadge(i) +`)](` + renderLicenseLink(i) + `)`;
       }
-      else if (sectionName === "Installation")
-      {
-        section = `${section}\n${parseInt(num)}. ${i}`;
-      }
-      else {
-        section = `${section}\n- ${i}`
-      }
+      else if (sectionName === "Installation") section = `${section}\n${parseInt(num)}. ${i}`;
+      
+      else section = `${section}\n- ${i}`;
+      
       num++;
     }
   }
@@ -109,6 +111,7 @@ function renderSectionList(items,sectionName){
 // TODO: Create a function to generate markdown for README
 function generateMarkdown(data) {
 
+  //Create a ToCs based on which items were provided by the user
   const renderTableOfContents = (data) => {
     let tc = ``;
   
@@ -128,11 +131,13 @@ function generateMarkdown(data) {
         
         if (data.badges) tc = `${tc}\n- [Badges](#badges)`;
         
-        if (data.features) tc = `${tc}\n- [Features](#features)`
+        if (data.features) tc = `${tc}\n- [Features](#features)`;
         
-        if (data.contribute) tc = `${tc}\n- [Contribute](#contribute)`
+        if (data.contribute) tc = `${tc}\n- [Contribute](#contribute)`;
         
-        if (data.tests) tc = `${tc}\n- [Tests](#tests)`
+        if (data.tests) tc = `${tc}\n- [Tests](#tests)`;
+
+        if (data.github || data.email) tc = `${tc}\n- [Questions](#questions)`;
     }
     else {
       tc = ``;
@@ -141,6 +146,8 @@ function generateMarkdown(data) {
     return tc;
   };
 
+  //The credits section is several sections
+  //This creates the initial heading and links that with the creation of subsections
   const renderCredits = (data) => {
     let credits = ``;
   
@@ -157,6 +164,8 @@ function generateMarkdown(data) {
     return credits;
   };
 
+  //This just checks if there is a contribute section and prints it if it exists
+  //Other sections handle this with the renderSectionList function
   const renderContribute = (data) => {
     let contributeSection = ``;
   
@@ -166,15 +175,44 @@ function generateMarkdown(data) {
     return contributeSection;
   };
 
+  //Questions section rendering
+  const renderQuestionSection = (data) => {
+    let questionSection = ``;
+  
+    if (data.github || data.email){
+      questionSection = `## Questions\nIf you have further questions then you can reach me at:\n`;
+
+      if (data.github) questionSection = `${questionSection}- GitHub: https://github.com/${data.github}\n`;
+      if (data.email) questionSection = `${questionSection}- Email: ${data.email}\n`;
+    }
+    return questionSection;
+  };
+
+  //Every section requires generating is list of items
+  const renderLicenseBadges = (data) => {
+  let section = ``;
+
+    for (i of data.license) {
+      i = i.trim();
+      section = `${section}[![License](`+ renderLicenseBadge(i) +`)](` + renderLicenseLink(i) + `)\n`;
+    }
+
+  return section;
+};
+
+  //Set the values for several sections
   const renderInstallation = renderSectionList(data.install,"Installation");
   const renderScreenShots = renderSectionList(data.screenshots,"Screenshots");
   const renderLicense = renderSectionList(data.license,"License");
   const renderBadges = renderSectionList(data.badges,"Badges");
   const renderFeatures = renderSectionList(data.features,"Features");
   const renderTests = renderSectionList(data.tests,"Tests");
+  // const renderQuestions = renderQuestionSection(data);
 
-  
+  // return the markup file
   return `# ${data.title}
+
+${renderLicenseBadges(data)}
 
 ## Description
 - What was your motivation?
@@ -208,7 +246,9 @@ ${renderFeatures}
 
 ${renderContribute(data)}
 
-${renderTests}`;
+${renderTests}
+
+${renderQuestionSection(data)}`;
 
 }
 

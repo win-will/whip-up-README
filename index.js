@@ -1,6 +1,7 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
+const { argv } = require('process');
 const generateMarkdown = require('./utils/generateMarkdown');
 
 // TODO: Create an array of questions for user input
@@ -32,7 +33,7 @@ const questions = [
     },
     {
         type: "input",
-        message: "What are the steps to install your project?",
+        message: "What are the steps to install your project? (Please comma separate each step.)",
         name: "install"
     },
     {
@@ -110,64 +111,69 @@ const questions = [
         type: "input",
         message: "How can this project be tested?",
         name: "tests"
-    }
+    },
+    {
+        type: "input",
+        message: "What is your GitHub username?",
+        name: "github"
+    },
+    {
+        type: "input",
+        message: "What is your email address?",
+        name: "email"
+    },
     
-
 ];
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    if (fileName){
-        fs.writeFile(fileName, generateMarkdown(data), (err) =>
-            err ? console.error(err) : console.log('Success!')
-        );
-    }
-    else {
-        console.log("Error file name was empty string")
-    }
+
+    fs.writeFile(fileName, generateMarkdown(data), (err) => err ? console.error(err) : console.log('Markdown File Created!') );
     
 }
 
 // TODO: Create a function to initialize app
 function init() {
-    // inquirer
-    //     .prompt(questions)
-    //         .then((answers) => {
-    //             console.log(JSON.stringify(answers, null, '  '));
-    //             writeToFile(process.argv[2], answers);
+    if (process.argv[2]){
+        inquirer
+            .prompt(questions)
+                .then((answers) => {
+                    // console.log(JSON.stringify(answers, null, '  '));
 
-    //         });
-    
-    answers = {
-            "title": "Weather Tracking",
-            "motivation": "My motivation for writing this application was to design an app that helped track weather patterns.",
-            "build": "I built it because I am regularly find that it is hard to determine the movement of weather.",
-            "solve": "My goal was to solve the weather tracking problem.",
-            "learn": "I learned that API calls from different weather data providers was slow, so I had to generate my own data.",
-            "install": "Dowload from Github, Run weatherApp.py",
-            "usage": "Usage: weatherAppy. -d <datafile>",
-            "screenshots": "image1.png,image2.png",
-            "collaborators": "John Salley <www.github.com/js>,Bill Lambert <www.github.com/bl>,Dennis Rodman <www.github.com/dr>",
-            "thirdparty": "Apache, Bulma",
-            "tutorials": "https://www.github.com/win-will/weatherApp, https://www.github.com/win-will/weatherApp2",
-            "license": ["Apache License 2.0","GNU LGPLv3"],
-            "badges": "https://img.shields.io/github/languages/top/lernantino/badmath",
-            "features": "Feature1, Feature2",
-            "contribute": "You can contribute by forking the project at github and sending pull requests for adding additional features.",
-            "tests": "Run npm test to execute all tests cases."
-          
+                    if (answers.title === "" || answers.motivation === "" || answers.build === "" || 
+                        answers.solve === "" || answers.learn === "" || answers.install === "" || 
+                        answers.usage === ""|| answers.license === "") {
+                        
+                        console.log("Error: A high-quality README includes at least a project title, description(motivation, build, solve, learn questions), installation instructions, usage and license information.")
+
+                    }
+                    else writeToFile(process.argv[2], answers);
+
+                });
+
     }
-    if (answers.title === "" || answers.motivation === "" || answers.build === "" || 
-        answers.solve === "" || answers.learn === "" || answers.install === "" || 
-        answers.usage === ""|| answers.license === "") {
-        console.log("Error you did not answer one or more questions necessary to make a high quality README!");
-    }
-    else {
-        writeToFile(process.argv[2], answers);
-    }
-    
-        
+    else console.log("Error: Filename missing - usage node index.js <filename>")
+
 }
 
 // Function call to initialize app
 init();
+
+
+// answers = {
+//         "title": "Weather Tracking",
+//         "motivation": "My motivation for writing this application was to design an app that helped track weather patterns.",
+//         "build": "I built it because I am regularly find that it is hard to determine the movement of weather.",
+//         "solve": "My goal was to solve the weather tracking problem.",
+//         "learn": "I learned that API calls from different weather data providers was slow, so I had to generate my own data.",
+//         "install": "Dowload from Github, Run weatherApp.py",
+//         "usage": "Usage: weatherAppy. -d <datafile>",
+//         "screenshots": "image1.png,image2.png",
+//         "collaborators": "John Salley <www.github.com/js>,Bill Lambert <www.github.com/bl>,Dennis Rodman <www.github.com/dr>",
+//         "thirdparty": "Apache, Bulma",
+//         "tutorials": "https://www.github.com/win-will/weatherApp, https://www.github.com/win-will/weatherApp2",
+//         "license": ["Apache License 2.0","GNU LGPLv3"],
+//         "badges": "https://img.shields.io/github/languages/top/lernantino/badmath",
+//         "features": "Feature1, Feature2",
+//         "contribute": "You can contribute by forking the project at github and sending pull requests for adding additional features.",
+//         "tests": "Run npm test to execute all tests cases."

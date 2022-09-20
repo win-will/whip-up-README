@@ -36,8 +36,8 @@ THEN I am taken to the corresponding section of the README
 
 ## Walkthrough Video
 
-Place link here for video
+!["Walkthrough video for Whip Up README.md"](./assets/videos/whip-up-README-walkthrough.gif)
 
 ## Mock-up
 
-![The Password Generator application displays a red button to "Generate Password".](./assets/images/03-javascript-homework-demo.png)
+!["Screen shot for Whip Up README.md"](./assets/images/screenshot.PNG)
